@@ -1,12 +1,27 @@
 import React from 'react';
 import './App.css';
+import { useState } from "react";
+import { startCapture, stopCapture } from './capture';
 
-import {startCapture, stopCapture} from './capture';
-
-//import capture = require('./capture');
+const logArray = Array(<></>);
 
 function App() {
 
+
+  // This logging to the page rather than the console is an
+  // interesting trick borrowed from the MDN example (see capture.js),
+  // However it's probably not a good idea to use this regularly.
+  const [log, setLog] = useState(<></>);
+
+  let updateLog = (cl: string, msg: string) => {
+    logArray.push(<span className={cl}>{msg}<br></br></span>);
+    setLog(<>{[...logArray]}</>);
+  }
+
+  console.log = (msg: any) => updateLog("info", msg);
+  console.error = (msg: any) => updateLog("error", msg);
+  console.warn = (msg: any) => updateLog("warn", msg);
+  console.info = (msg: any) => updateLog("info", msg);
 
   return (
     <div className="App">
@@ -23,7 +38,7 @@ Click the Start Capture button to begin.</p>
 
       <strong>Log:</strong>
       <br></br>
-      <pre id="log"></pre>
+      <pre id="log">{log}</pre>
     </div>
   );
 }

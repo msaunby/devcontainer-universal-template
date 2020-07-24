@@ -1,9 +1,7 @@
+// See https://developer.mozilla.org/en-US/docs/Web/API/Screen_Capture_API/Using_Screen_Capture
+// for the original version of this code with detailed explanation.
+
 export { startCapture, stopCapture};
-
-
-//const logElem = document.getElementById("log");
-//const startElem = document.getElementById("start");
-//const stopElem = document.getElementById("stop");
 
 // Options for getDisplayMedia()
 
@@ -14,26 +12,9 @@ var displayMediaOptions = {
     audio: false
 };
 
-// Set event listeners for the start and stop buttons
-/*
-startElem.addEventListener("click", function (evt) {
-    startCapture();
-}, false);
-
-stopElem.addEventListener("click", function (evt) {
-    stopCapture();
-}, false);
-*/
-
-/*
-console.log = msg => logElem.innerHTML += `${msg}<br>`;
-console.error = msg => logElem.innerHTML += `<span class="error">${msg}</span><br>`;
-console.warn = msg => logElem.innerHTML += `<span class="warn">${msg}<span><br>`;
-console.info = msg => logElem.innerHTML += `<span class="info">${msg}</span><br>`;
-*/
-
 async function startCapture() {
-    //logElem.innerHTML = "";
+
+    console.info("Info: startCapture");
 
     const videoElem = document.getElementById("video");
     try {
@@ -44,7 +25,7 @@ async function startCapture() {
     }
 }
 
-function stopCapture(evt) {
+function stopCapture() {
     const videoElem = document.getElementById("video");
     let tracks = videoElem.srcObject.getTracks();
 
