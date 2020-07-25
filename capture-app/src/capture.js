@@ -18,7 +18,7 @@ var displayMediaOptions = {
     //}
 }
 
-let chunks = [];
+let chunks;
 
 let mediaRecorder = null;
 
@@ -27,14 +27,16 @@ async function startCapture() {
     console.info("Info: startCapture");
 
     const videoElem = document.getElementById("video");
+    chunks = [];
     try {
         const displayStream = await navigator.mediaDevices.getDisplayMedia(displayMediaOptions);
         videoElem.srcObject = displayStream;
         mediaRecorder = new MediaRecorder(displayStream, {mimeType: "video/webm"});
+        mediaRecorder.onstop = (e) => {console.log("recorder stopped");};
         mediaRecorder.ondataavailable = function(e) {
             chunks.push(e.data);
         };
-        mediaRecorder.start();
+        mediaRecorder.start(1000); // Default behavoiur wasn't working. Slices do.
         console.log(mediaRecorder.state);
         console.log("recorder started");
         dumpOptionsInfo();
@@ -60,19 +62,21 @@ function download(data) {
 
 function stopCapture() {
 
+    mediaRecorder.requestData();
+    const videoElem = document.getElementById("video");
+    let tracks = videoElem.srcObject.getTracks();
+
+    tracks.forEach(track => track.stop());
+    videoElem.srcObject = null;
+
     console.log(mediaRecorder.state);
     console.log(chunks.length);
     mediaRecorder.stop();
     console.log(mediaRecorder.state);
     console.log("recorder stopped");
 
+    console.log("downloading...");
     download(chunks);
-
-    const videoElem = document.getElementById("video");
-    let tracks = videoElem.srcObject.getTracks();
-
-    tracks.forEach(track => track.stop());
-    videoElem.srcObject = null;
 }
 
 function dumpOptionsInfo() {
