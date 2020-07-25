@@ -18,7 +18,7 @@ var displayMediaOptions = {
     //}
 }
 
-let chunks;
+let chunks = [];
 
 let mediaRecorder = null;
 
@@ -27,7 +27,6 @@ async function startCapture() {
     console.info("Info: startCapture");
 
     const videoElem = document.getElementById("video");
-    chunks = [];
     try {
         const displayStream = await navigator.mediaDevices.getDisplayMedia(displayMediaOptions);
         videoElem.srcObject = displayStream;
