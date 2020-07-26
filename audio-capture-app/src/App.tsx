@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import { useState } from "react";
-import { startAudioCapture, stopCapture } from './audio_capture';
+import { enableMicrophone, disableMicrophone, startAudioCapture, stopAudioCapture } from './audio_capture';
 
 const logArray = Array(<></>);
 
@@ -31,7 +31,12 @@ function App() {
       <p>This example shows you the contents of the selected part of your display.
 Click the Start Capture button to begin.</p>
 
-      <p><button id="start" onClick={startAudioCapture}>Start Audio Capture</button>&nbsp;<button id="stop" onClick={stopCapture}>Stop Capture</button></p>
+      <p>
+        <button id="enable" onClick={enableMicrophone}>Enable Microphone</button>
+        <button id="start" onClick={startAudioCapture}>Start Audio Capture</button>
+        <button id="stop" onClick={stopAudioCapture}>Stop Audio Capture</button>
+        <button id="disable" onClick={disableMicrophone}>Disable Microphone</button>
+      </p>
 
       <br></br>
 
