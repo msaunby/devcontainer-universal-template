@@ -2,6 +2,8 @@ import React from 'react';
 import './App.css';
 import { useState } from "react";
 import { enableMicrophone, disableMicrophone, startAudioCapture, stopAudioCapture } from './audio_capture';
+import {  startScreenCapture, stopScreenCapture } from './capture';
+
 
 const logArray = Array(<></>);
 
@@ -37,6 +39,13 @@ Click the Start Capture button to begin.</p>
         <button id="stop" onClick={stopAudioCapture}>Stop Audio Capture</button>
         <button id="disable" onClick={disableMicrophone}>Disable Microphone</button>
       </p>
+      <p>
+        <button id="enableScr" >Enable Microphone</button>
+        <button id="startScr" onClick={startScreenCapture}>Start Screen Capture</button>
+        <button id="stopScr" onClick={stopScreenCapture}>Stop Screen Capture</button>
+        <button id="disableScr" >Disable Microphone</button>
+      </p>
+
 
       <br></br>
 
