@@ -1,5 +1,11 @@
 # Using ffmpeg docker image to convert media file formats
 
+<https://docs.docker.com/engine/security/userns-remap/>
+
+```sh
+docker run --user 1000 -v $(pwd):$(pwd) -w $(pwd) -it --entrypoint='bash' jrottenberg/ffmpeg
+```
+
 ## Ffmpeg
 
 <https://ffmpeg.org/>
@@ -17,4 +23,10 @@ docker run -v $(pwd):$(pwd) -w $(pwd)\
         jrottenberg/ffmpeg -stats \
         -i original.gif \
         original-converted.mp4
+```
+
+###  Merge audio and video tracks
+
+```sh
+ffmpeg -i audio.aiff -i video.mov -acodec copy -vcodec copy -f mp4 avcombined.mp4
 ```
