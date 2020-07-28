@@ -1,7 +1,7 @@
 // See https://developer.mozilla.org/en-US/docs/Web/API/Screen_Capture_API/Using_Screen_Capture
 // for the original version of this code with detailed explanation.
 
-export { startScreenCapture, stopScreenCapture };
+export { enableScreenCap, disableScreenCap, startScreenCapture, stopScreenCapture };
 
 // Options for getDisplayMedia()
 
@@ -20,19 +20,42 @@ var displayMediaOptions = {
 
 let chunks = [];
 
+let displayStream = null;
 let mediaRecorder = null;
 
-async function startScreenCapture() {
+
+async function enableScreenCap() {
+    const videoElem = document.getElementById("video");
+    try {
+        displayStream = await navigator.mediaDevices.getDisplayMedia(displayMediaOptions);
+        videoElem.srcObject = displayStream;
+    } catch (err) {
+        console.error("Error: " + err);
+    }
+}
+
+function disableScreenCap() {
+    try {
+        const videoElem = document.getElementById("video");
+        let tracks = videoElem.srcObject.getTracks();
+        tracks.forEach(track => track.stop());
+        videoElem.srcObject = null;
+    } catch (err) {
+        console.error("Error: " + err);
+    }
+}
+
+function startScreenCapture() {
 
     console.info("Info: startCapture");
 
-    const videoElem = document.getElementById("video");
+    //const videoElem = document.getElementById("video");
     try {
-        const displayStream = await navigator.mediaDevices.getDisplayMedia(displayMediaOptions);
-        videoElem.srcObject = displayStream;
-        mediaRecorder = new MediaRecorder(displayStream, {mimeType: "video/webm"});
-        mediaRecorder.onstop = (e) => {console.log("recorder stopped");};
-        mediaRecorder.ondataavailable = function(e) {
+        // const displayStream = await navigator.mediaDevices.getDisplayMedia(displayMediaOptions);
+        // videoElem.srcObject = displayStream;
+        mediaRecorder = new MediaRecorder(displayStream, { mimeType: "video/webm" });
+        mediaRecorder.onstop = (e) => { console.log("recorder stopped"); };
+        mediaRecorder.ondataavailable = function (e) {
             chunks.push(e.data);
         };
         mediaRecorder.start(1000); // Default behavoiur wasn't working. Slices do.
@@ -45,10 +68,10 @@ async function startScreenCapture() {
 }
 
 function download(data) {
-    var blob = new Blob(data, {
-      type: "video/webm"
+    var screen_capture = new Blob(data, {
+        type: "video/webm"
     });
-    var url = URL.createObjectURL(blob);
+    var url = URL.createObjectURL(screen_capture);
     var a = document.createElement("a");
     document.body.appendChild(a);
     a.style = "display: none";
@@ -56,17 +79,11 @@ function download(data) {
     a.download = "test.webm";
     a.click();
     window.URL.revokeObjectURL(url);
-  }
-  
+}
 
 function stopScreenCapture() {
 
     mediaRecorder.requestData();
-    const videoElem = document.getElementById("video");
-    let tracks = videoElem.srcObject.getTracks();
-
-    tracks.forEach(track => track.stop());
-    videoElem.srcObject = null;
 
     console.log(mediaRecorder.state);
     console.log(chunks.length);

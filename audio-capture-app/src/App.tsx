@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import { useState } from "react";
 import { enableMicrophone, disableMicrophone, startAudioCapture, stopAudioCapture } from './audio_capture';
-import {  startScreenCapture, stopScreenCapture } from './capture';
+import {  startScreenCapture, stopScreenCapture, enableScreenCap, disableScreenCap } from './capture';
 
 
 const logArray = Array(<></>);
@@ -34,24 +34,30 @@ function App() {
 Click the Start Capture button to begin.</p>
 
       <p>
-        <button id="enable" onClick={enableMicrophone}>Enable Microphone</button>
+        <button id="enable" onClick={enableMicrophone}>Enable Microphone/Audio</button>
         <button id="start" onClick={startAudioCapture}>Start Audio Capture</button>
         <button id="stop" onClick={stopAudioCapture}>Stop Audio Capture</button>
         <button id="disable" onClick={disableMicrophone}>Disable Microphone</button>
       </p>
       <p>
-        <button id="enableScr" >Enable Microphone</button>
+        <button id="enableScr" onClick={enableScreenCap}>Enable Screen</button>
         <button id="startScr" onClick={startScreenCapture}>Start Screen Capture</button>
         <button id="stopScr" onClick={stopScreenCapture}>Stop Screen Capture</button>
-        <button id="disableScr" >Disable Microphone</button>
+        <button id="disableScr" onClick={disableScreenCap}>Disable Screen</button>
+      </p>
+      <p>
+      <button id="download" >Download</button>
+      <button id="upload" >Upload</button>
       </p>
 
-
+      <video id="video" autoPlay></video>
       <br></br>
 
       <strong>Log:</strong>
+      <div style={{textAlign:'left'}}>
       <br></br>
-      <pre id="log">{log}</pre>
+      <pre>{log}</pre>
+      </div>
     </div>
   );
 }
