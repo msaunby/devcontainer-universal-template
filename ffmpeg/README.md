@@ -3,6 +3,10 @@
 <https://docs.docker.com/engine/security/userns-remap/>
 
 ```sh
+# To find mounted volumes.
+# Assume we are only running container.
+docker inspect -f "{{ .Mounts }}" `docker ps -q`
+
 docker run --user 1000 -v $(pwd):$(pwd) -w $(pwd) -it --entrypoint='bash' jrottenberg/ffmpeg
 ```
 
