@@ -1,5 +1,5 @@
 
-export { enableMicrophone, disableMicrophone, startAudioCapture, stopAudioCapture };
+export { enableMicrophone, disableMicrophone, startAudioCapture, stopAudioCapture, downloadAudioCapture };
 
 
 let mediaOptions = {
@@ -37,17 +37,22 @@ function disableMicrophone() {
 
 function startAudioCapture() {
     console.info("Info: startAudioCapture");
-    mediaRecorder = new MediaRecorder(audioStream);
-    mediaRecorder.onstop = (e) => { console.log("audio recorder stopped"); };
-    mediaRecorder.ondataavailable = function (e) {
-        chunks.push(e.data);
-    };
-    mediaRecorder.start(100); // Default behavoiur wasn't working. Slices do.
-    console.log(mediaRecorder.state);
-    console.log("recorder started");
+    try {
+        mediaRecorder = new MediaRecorder(audioStream);
+        mediaRecorder.onstop = (e) => { console.log("audio recorder stopped"); };
+        mediaRecorder.ondataavailable = function (e) {
+            chunks.push(e.data);
+        };
+        mediaRecorder.start(100); // Default behavoiur wasn't working. Slices do.
+        console.log(mediaRecorder.state);
+        console.log("recorder started");
+    } catch (err) {
+        console.error("Error: " + err);
+    }
 }
 
-function download(data) {
+function downloadAudioCapture() {
+    let data = chunks;
     let blob = new Blob(data, { 'type': 'audio/ogg; codecs=opus' });
     let url = URL.createObjectURL(blob);
     let a = document.createElement("a");
@@ -61,10 +66,10 @@ function download(data) {
 
 
 function stopAudioCapture() {
-    mediaRecorder.requestData();
-    mediaRecorder.stop();
-
-    download(chunks);
+    if (mediaRecorder) {
+        mediaRecorder.requestData();
+        mediaRecorder.stop();
+    }
 }
 
 

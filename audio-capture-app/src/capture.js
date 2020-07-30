@@ -1,7 +1,7 @@
 // See https://developer.mozilla.org/en-US/docs/Web/API/Screen_Capture_API/Using_Screen_Capture
 // for the original version of this code with detailed explanation.
 
-export { enableScreenCap, disableScreenCap, startScreenCapture, stopScreenCapture };
+export { enableScreenCap, disableScreenCap, startScreenCapture, stopScreenCapture, downloadScreenCapture };
 
 // Options for getDisplayMedia()
 
@@ -67,12 +67,13 @@ function startScreenCapture() {
     }
 }
 
-function download(data) {
-    var screen_capture = new Blob(data, {
+function downloadScreenCapture() {
+    let data = chunks;
+    let screen_capture = new Blob(data, {
         type: "video/webm"
     });
-    var url = URL.createObjectURL(screen_capture);
-    var a = document.createElement("a");
+    let url = URL.createObjectURL(screen_capture);
+    let a = document.createElement("a");
     document.body.appendChild(a);
     a.style = "display: none";
     a.href = url;
@@ -82,17 +83,10 @@ function download(data) {
 }
 
 function stopScreenCapture() {
-
-    mediaRecorder.requestData();
-
-    console.log(mediaRecorder.state);
-    console.log(chunks.length);
-    mediaRecorder.stop();
-    console.log(mediaRecorder.state);
-    console.log("recorder stopped");
-
-    console.log("downloading...");
-    download(chunks);
+    if (mediaRecorder) {
+        mediaRecorder.requestData();
+        mediaRecorder.stop();
+    }
 }
 
 function dumpOptionsInfo() {
