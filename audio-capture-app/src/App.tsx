@@ -1,8 +1,8 @@
 import React from 'react';
 import './App.css';
 import { useState } from "react";
-import { enableMicrophone, disableMicrophone, startAudioCapture, stopAudioCapture } from './audio_capture';
-import {  startScreenCapture, stopScreenCapture, enableScreenCap, disableScreenCap } from './capture';
+import { enableMicrophone, disableMicrophone, startAudioCapture, stopAudioCapture, downloadAudioCapture } from './audio_capture';
+import {  startScreenCapture, stopScreenCapture, enableScreenCap, disableScreenCap, downloadScreenCapture } from './capture';
 
 
 const logArray = Array(<></>);
@@ -25,6 +25,21 @@ function App() {
   console.warn = (msg: any) => updateLog("warn", msg);
   console.info = (msg: any) => updateLog("info", msg);
 
+  let startCapture = () => {
+    startAudioCapture();
+    startScreenCapture();
+  }
+
+  let stopCapture = () => {
+    stopAudioCapture();
+    stopScreenCapture();
+  }
+
+  function download(){
+    downloadScreenCapture();
+    downloadAudioCapture();
+  }
+
   return (
     <div className="App">
       <header className="App-header">
@@ -35,18 +50,18 @@ Click the Start Capture button to begin.</p>
 
       <p>
         <button id="enable" onClick={enableMicrophone}>Enable Microphone/Audio</button>
-        <button id="start" onClick={startAudioCapture}>Start Audio Capture</button>
-        <button id="stop" onClick={stopAudioCapture}>Stop Audio Capture</button>
         <button id="disable" onClick={disableMicrophone}>Disable Microphone</button>
       </p>
       <p>
         <button id="enableScr" onClick={enableScreenCap}>Enable Screen</button>
-        <button id="startScr" onClick={startScreenCapture}>Start Screen Capture</button>
-        <button id="stopScr" onClick={stopScreenCapture}>Stop Screen Capture</button>
         <button id="disableScr" onClick={disableScreenCap}>Disable Screen</button>
       </p>
       <p>
-      <button id="download" >Download</button>
+        <button id="start" onClick={startCapture}>Start Capture</button>
+        <button id="stop" onClick={stopCapture}>Stop Capture</button>
+      </p>
+      <p>
+      <button id="download" onClick={download}>Download</button>
       <button id="upload" >Upload</button>
       </p>
 

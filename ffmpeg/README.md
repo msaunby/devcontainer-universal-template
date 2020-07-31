@@ -1,5 +1,26 @@
 # Using ffmpeg docker image to convert media file formats
 
+
+## Video file formats
+
+Files commonly described as video formats are also known as *containers*, because
+they contain more than one *stream* of data, typically a video stream and an audio stream. The use of
+the term *container* in this context might be rather confusing, so in most cases I'll refer to them as
+files.
+
+There are several video file formats (containers) such MP4. <https://en.wikipedia.org/wiki/MPEG-4_Part_14>  Note that MP4 supports different encodings of video and audio streams, and
+each of these encodings has countless variations, for example the sample rate, the resoultion, stereo or mono.
+
+### Browser compatibility
+
+The most widely used web browsers have multimedia capabilities, and can play video and audio streams from the web and local files. Web browsers often have the capability to create live multimedia sources by accessing camera and microphone, and in many cases can now also screen share and audio playback.
+
+
+[MDN: Web media technologies](https://developer.mozilla.org/en-US/docs/Web/Media)
+
+
+
+
 <https://docs.docker.com/engine/security/userns-remap/>
 
 ```sh
