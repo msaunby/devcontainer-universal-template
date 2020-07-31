@@ -1,3 +1,10 @@
+# Install
+
+Note that the repository does not include the node_modules directory (see .gitignore) so to build from a freshly
+created container first run ```npm install```. 
+
+## React development
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
