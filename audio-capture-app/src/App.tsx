@@ -65,7 +65,7 @@ Click the Start Capture button to begin.</p>
       <button id="upload" >Upload</button>
       </p>
 
-      <video id="video" autoPlay></video>
+      <video controls muted id="video" autoPlay></video>
       <br></br>
 
       <strong>Log:</strong>

@@ -10,13 +10,7 @@ var displayMediaOptions = {
         cursor: "always"
     },
     audio: true
-    //audio: false
-    //audio: {
-    //    echoCancellation: true,
-    //    noiseSuppression: true,
-    //    sampleRate: 44100
-    //}
-}
+};
 
 let chunks = [];
 
